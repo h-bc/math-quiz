@@ -7,7 +7,7 @@ import "./tailwind.css";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { numberOperation: 0, correctAnswers: 0 };
+    this.state = { user: "", numberOperation: 0, correctAnswers: 0 };
     this.state = Object.assign(countingToN(), this.state);
     console.log(this.state);
     this.handleAnswerButtonClick = this.handleAnswerButtonClick.bind(this);
