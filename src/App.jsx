@@ -1,21 +1,27 @@
 import React, { Component } from "react";
 import Question from "./components/Question";
 import Card from "./components/Card";
-import { countingTo10 } from "./utils/counting";
+import { countingToN } from "./utils/counting";
 import "./tailwind.css";
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = countingTo10();
+    this.state = { numberOperation: 0, correctAnswers: 0 };
+    this.state = Object.assign(countingToN(), this.state);
+    console.log(this.state);
     this.handleAnswerButtonClick = this.handleAnswerButtonClick.bind(this);
   }
 
   handleAnswerButtonClick(number) {
-    if (this.state.a + this.state.b === number) {
-      console.log("good Answer");
-    }
-    this.setState(countingTo10());
+    const isCorrect = this.state.a + this.state.b === number ? 1 : 0;
+
+    this.setState((state, props) => ({
+      correctAnswers: state.correctAnswers + isCorrect,
+      numberOperation: state.numberOperation + 1
+    }));
+
+    this.setState(countingToN());
   }
   render() {
     const ListAnswer = this.state.answers.map((answer, index) => (
