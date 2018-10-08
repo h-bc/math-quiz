@@ -3,16 +3,24 @@ import Question from "./components/Question";
 import Card from "./components/Card";
 import { countingToN } from "./utils/counting";
 import "./tailwind.css";
+import "animate.css";
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { user: "", numberOperation: 0, correctAnswers: 0 };
+    this.state = {
+      user: "",
+      numberOperation: 0,
+      correctAnswers: 0,
+      animationClass: ""
+    };
     this.state = Object.assign(countingToN(), this.state);
-    console.log(this.state);
     this.handleAnswerButtonClick = this.handleAnswerButtonClick.bind(this);
+    this.handleAnimationEnd = this.handleAnimationEnd.bind(this);
   }
-
+  handleAnimationEnd() {
+    this.setState({ animationClass: "" });
+  }
   handleAnswerButtonClick(number) {
     const isCorrect = this.state.a + this.state.b === number ? 1 : 0;
 
@@ -22,8 +30,14 @@ class App extends Component {
     }));
 
     this.setState(countingToN());
+    if (!isCorrect) {
+      this.setState({ animationClass: `animated  shake` });
+    }
   }
   render() {
+    let className = `container w-1/2 min=h-screen  mx-auto p-4 bg-grey-light font-sans my-20 rounded-lg shadow-lg ${
+      this.state.animationClass
+    }`;
     const ListAnswer = this.state.answers.map((answer, index) => (
       <Card
         key={index}
@@ -32,7 +46,7 @@ class App extends Component {
       />
     ));
     return (
-      <div className="container w-1/2 min=h-screen  mx-auto p-4 bg-grey-light font-sans my-20 rounded-lg shadow-lg">
+      <div className={className} onAnimationEnd={this.handleAnimationEnd}>
         <header className=" border-grey p-4 border-b-2">
           <h1 className="text-center ">
             Welcome -{"Nada & Zaky"} - to Math Quiz.
